@@ -1,0 +1,8 @@
+metadata/v1.json
+metadata/v1/ 
+metadata/v1/id
+metadata/v1/user-data
+metadata/v1/hostname
+metadata/v1/region
+metadata/v1/interfaces/public/0/ipv6/address
+

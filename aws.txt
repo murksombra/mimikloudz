@@ -1,0 +1,7 @@
+latest/meta-data/iam/security-credentials/dummy
+latest/user-data
+latest/meta-data/ami-id
+latest/meta-data/reservation-id
+latest/meta-data/hostname
+latest/meta-data/public-keys/0/openssh-key
+v2/credentials/

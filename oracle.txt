@@ -1,0 +1,4 @@
+latest/
+latest/user-data/
+latest/meta-data/
+latest/attributes/

