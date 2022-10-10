@@ -1,17 +1,29 @@
+use std::path::Path;
+use std::io::BufReader;
+use std::io::Lines;
+use std::io::Result;
 use std::env;
 use std::fs::File;
 use std::io::prelude::*;
 
 
-fn main()-> std::io::Result<()> {
+fn main() {
     let args: Vec<String> = env::args().collect();
     let cloud_provider = &args[1];
     println!("[@] MiMiKlOuDz - Intelligence gathering tool [@]");
     
-    let mut file = File::open("aws.txt")?;
-    let mut paths = String::new();
-    file.read_to_string(&mut paths)?;
-
-    Ok(())
+    if let Ok(lines) = read_lines("./aws.txt"){
+        for line in lines {
+            if let Ok(path) = line {
+                println!("{}",path);
+            }
+        }
+    }
 }
 
+fn read_lines<P>(filename: P) -> Result<Lines<BufReader<File>>>
+where P: AsRef<Path>,{
+
+    let file = File::open(filename)?;
+    Ok(BufReader::new(file).lines())
+}
