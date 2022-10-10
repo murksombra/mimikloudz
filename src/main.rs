@@ -30,24 +30,32 @@ async fn main() -> std::io::Result<()> {
         _ => println!("{} not supported yet.", cloud_provider.as_str()),
     }
 
-    send_requests(wordlist, &base_cloud_addr);
+    send_requests(wordlist, &base_cloud_addr).await;
     Ok(())
 
 }
 
 fn read_lines<P>(filename: P) -> std::io::Result<Lines<BufReader<File>>>
-where P: AsRef<Path>,{
+    where P: AsRef<Path>,{
 
     let file = File::open(filename)?;
     Ok(BufReader::new(file).lines())
 }
 
-fn send_requests(wordlist: String, base_addr: &str){
-    
+async fn send_requests(wordlist: String, base_addr: &str){
+    let mut target = String::new();
     if let Ok(lines) = read_lines(wordlist){
         for line in lines {
             if let Ok(path) = line {
                 println!("[*] Requesting {}/{}", base_addr, path);
+            
+                target = format!("http://{base_addr}/{path}");
+                let content = reqwest::get(target)
+                    .await.expect("BAzinga")
+                    .text()
+                    .await;
+                println!("[+] Full Response:\n{:?}",content);
+                
             }
         }
     }
