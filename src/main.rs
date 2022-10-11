@@ -30,7 +30,7 @@ async fn main() -> std::io::Result<()> {
         _ => println!("{} not supported yet.", cloud_provider.as_str()),
     }
 
-    send_requests(wordlist, &base_cloud_addr).await;
+    send_requests(wordlist, base_cloud_addr.to_string()).await;
     Ok(())
 
 }
@@ -42,22 +42,24 @@ fn read_lines<P>(filename: P) -> std::io::Result<Lines<BufReader<File>>>
     Ok(BufReader::new(file).lines())
 }
 
-async fn send_requests(wordlist: String, base_addr: &str){
-    let mut target = String::new();
+async fn send_requests(wordlist: String, base_addr: String){
     if let Ok(lines) = read_lines(wordlist){
         for line in lines {
             if let Ok(path) = line {
-                println!("[*] Requesting {}/{}", base_addr, path);
-            
-                target = format!("http://{base_addr}/{path}");
-                let content = reqwest::get(target)
-                    .await.expect("BAzinga")
-                    .text()
-                    .await;
-                println!("[+] Full Response:\n{:?}",content);
-                
+                tokio::task::spawn(request(path, base_addr.clone()));     
             }
         }
     }
 
+}
+
+async fn request (path: String, base_addr: String) -> Result<()> {
+    println!("[*] Requesting {}/{}", base_addr, path);
+    let target = format!("http://{base_addr}/{path}");
+    let content = reqwest::get(target)
+    .await.expect("BAzinga")
+    .text()
+    .await;
+    println!("[+] Full Response:\n{:?}",content);
+    Ok(())
 }
